@@ -14,6 +14,9 @@ namespace KeyboardTrans
         public Form1()
         {
             InitializeComponent();
+
+            Height = Width;
+            groupBox2.Top = Height;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -44,12 +47,45 @@ namespace KeyboardTrans
             else if (radioButton10.Checked) Program.Crypting = Program.CryptingMode.Bracket;
             else if (radioButton11.Checked) Program.Crypting = Program.CryptingMode.Fraktur;
             else if (radioButton12.Checked) Program.Crypting = Program.CryptingMode.Mathematical;
+
+            if (bActive) textBox1.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             AboutBox1 about = new AboutBox1();
             about.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (groupBox2.Top == groupBox1.Top)
+            {
+                groupBox2.Top = Height;
+                groupBox2.Enabled = false;
+            }
+            else
+            {
+                groupBox2.Top = groupBox1.Top;
+                groupBox2.Enabled = true;
+            }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(linkLabel1.Text);
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                TopMost = true;
+            }
+            else
+            {
+                TopMost = false;
+            }
         }
     }
 }
