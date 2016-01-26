@@ -33,7 +33,7 @@ You can download a working binary from this link:
 ####A special thank to Ciro, my beta tester ;)
 
 #Changelog:
-##Version 1.1
+**Version 1.1**
 * Ignore CTRL and ALT when pressing keys.
 * Added topmost option
 * Added option to convert a string in the clipboard
