@@ -30,4 +30,10 @@ You can download a working binary from this link:
 
 * application was wrote with .NET 4.0. Works with Windows 7, Windows 8 and Windows 10.
 
+####A special thank to Ciro, my beta tester ;)
 
+#Changelog:
+##Version 1.1
+* Ignore CTRL and ALT when pressing keys.
+* Added topmost option
+* Added option to convert a string in the clipboard
