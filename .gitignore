@@ -1,0 +1,11 @@
+bin/Debug/Text Crypter.exe
+*.pdb
+bin/Debug/Text Crypter.vshost.exe
+*.cache
+obj/x86/Debug/KeyboardTrans.AboutBox1.resources
+*.dll
+obj/x86/Debug/Text Crypter.exe
+bin/Debug/Text Crypter.vshost.exe.manifest
+obj/x86/Debug/TextCrypter.csproj.FileListAbsolute.txt
+obj/x86/Debug/TextCrypter.Properties.Resources.resources
+obj/x86/Debug/KeyboardTrans.Form1.resources
