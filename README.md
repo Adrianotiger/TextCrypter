@@ -21,9 +21,9 @@ Oʁ !u ⅄ ɐx!ƨ...
 
 Even if you can change the unicode characters on the fly. The random is the best one :D
 
-Step 1: select the unicode transformation
-Step 2: Press Crypt! and your keyboard will write new characters.
-Step 3: Press Crypt! again to terminate the crypting method.
+* Step 1: select the unicode transformation
+* Step 2: Press Crypt! and your keyboard will write new characters.
+* Step 3: Press Crypt! again to terminate the crypting method.
 
 You can download a working binary from this link:
 [DOWNLOAD](http://esheep.petrucci.ch/TextCrypter/Text Crypter.zip)
