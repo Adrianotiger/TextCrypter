@@ -17,3 +17,4 @@ bin/Release/Text Crypter.vshost.exe.manifest
 obj/x86/Release/TextCrypter.csproj.FileListAbsolute.txt
 obj/x86/Release/Text Crypter.exe
 obj/x86/Release/TextCrypter.Properties.Resources.resources
+TextCrypter.suo
