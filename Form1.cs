@@ -29,6 +29,15 @@ namespace KeyboardTrans
             Application.Exit();
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (groupBox2.Top == groupBox1.Top)
+            {
+                groupBox2.Top = Height;
+                e.Cancel = true;
+            }
+        }
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             bool bActive = checkBox1.Checked;
@@ -111,5 +120,6 @@ namespace KeyboardTrans
                 }
             }
         }
+
     }
 }

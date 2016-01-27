@@ -285,7 +285,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(58, 138);
+            this.label1.Location = new System.Drawing.Point(59, 141);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(141, 13);
             this.label1.TabIndex = 1;
@@ -294,7 +294,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(29, 153);
+            this.linkLabel1.Location = new System.Drawing.Point(26, 156);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(215, 13);
             this.linkLabel1.TabIndex = 0;
@@ -320,6 +320,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Text crypter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);

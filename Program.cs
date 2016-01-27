@@ -39,6 +39,7 @@ namespace KeyboardTrans
         public static CryptingMode Crypting = CryptingMode.Bubble;
 
         private static Encoding enc = new UTF32Encoding(false, true, true);
+        private static Random rand = new Random();
 
         private static string[] alphabetsM = 
         {
@@ -144,7 +145,6 @@ namespace KeyboardTrans
 
         private static string ConvertCharToRandom(Int32 letter)
         {
-            Random rand = new Random();
             switch (rand.Next(0, 7))
             {
                 case 0: return ConvertChar(letter, 1); 
