@@ -13,10 +13,6 @@ namespace KeyboardTrans
         private const int WM_KEYUP = 0x0101;
         private const int VK_LSHIFT = 0xA0;
         private const int VK_RSHIFT = 0xA1;
-        private const int VK_LCONTROL = 0xA2;
-        private const int VK_RCONTROL = 0xA3;
-        private const int VK_LMENU = 0xA4;
-        private const int VK_RMENU = 0xA5;
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
         private static bool bPressed = false;
@@ -101,7 +97,6 @@ namespace KeyboardTrans
             "zⓩzzᶻｚ𝐳𝑧⒵𝖟𝔃"
         };
 
-        [STAThread]
         public static void Main()
         {
             _hookID = SetHook(_proc);
@@ -162,10 +157,7 @@ namespace KeyboardTrans
         {
             if (nCode >= 0 && ActivateCrypting)
             {
-                int ctrlKey = (GetAsyncKeyState(VK_LCONTROL) | GetAsyncKeyState(VK_RCONTROL)) & 0x8000;
-                int altKey = (GetAsyncKeyState(VK_LMENU) | GetAsyncKeyState(VK_RMENU)) & 0x8000;
-
-                if (wParam == (IntPtr)WM_KEYDOWN && !bPressed && ctrlKey == 0 && altKey == 0)
+                if (wParam == (IntPtr)WM_KEYDOWN && !bPressed)
                 {
                     KBDLLHOOKSTRUCT kbd = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
                     
@@ -219,53 +211,6 @@ namespace KeyboardTrans
                 }
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
-        }
-
-        public static string ConvertString(string original)
-        {
-            String converted = "";
-            if (ActivateCrypting)
-            {
-                for (int i = 0; i < original.Length; i++)
-                {
-                    if ((original[i] >= 'A' && original[i] <= 'Z') ||
-                        (original[i] >= 'a' && original[i] <= 'z'))
-                    {
-                        switch (Crypting)
-                        {
-                            case CryptingMode.Bubble: converted += ConvertChar(original[i], 1);          // bubble
-                                break;
-                            case CryptingMode.Square: converted += ConvertCharToSquare(original[i]);     // quadrato
-                                break;
-                            case CryptingMode.FlipX: converted += ConvertChar(original[i], 2);          // specchia orrizontalmente
-                                break;
-                            case CryptingMode.FlipY: converted += ConvertChar(original[i], 3);          // specchia verticalmente
-                                break;
-                            case CryptingMode.Superior: converted += ConvertChar(original[i], 4);          // appendice
-                                break;
-                            case CryptingMode.Wide: converted += ConvertChar(original[i], 5);          // spazio fisso largo
-                                break;
-                            case CryptingMode.Bold: converted += ConvertChar(original[i], 6);          // grassetto
-                                break;
-                            case CryptingMode.Italic: converted += ConvertChar(original[i], 7);          // corsivo
-                                break;
-                            case CryptingMode.Bracket: converted += ConvertChar(original[i], 8);          // parentesi
-                                break;
-                            case CryptingMode.Fraktur: converted += ConvertChar(original[i], 9);          // Fraktur (matematica)
-                                break;
-                            case CryptingMode.Mathematical: converted += ConvertChar(original[i], 10);         // lettere matematiche
-                                break;
-                            default: converted += ConvertCharToRandom(original[i]);         // a caso
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        converted += original[i];
-                    }
-                }
-            }
-            return converted;
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]

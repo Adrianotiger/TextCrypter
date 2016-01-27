@@ -48,7 +48,7 @@ namespace KeyboardTrans
             else if (radioButton11.Checked) Program.Crypting = Program.CryptingMode.Fraktur;
             else if (radioButton12.Checked) Program.Crypting = Program.CryptingMode.Mathematical;
 
-            if (bActive) textBox1.Text = Program.ConvertString(" Test string...");
+            if (bActive) textBox1.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -87,6 +87,7 @@ namespace KeyboardTrans
                 TopMost = false;
             }
         }
+<<<<<<< HEAD
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -111,5 +112,7 @@ namespace KeyboardTrans
                 }
             }
         }
+=======
+>>>>>>> parent of 9d9617e... Ignore CTRL
     }
 }
