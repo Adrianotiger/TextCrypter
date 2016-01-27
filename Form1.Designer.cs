@@ -49,10 +49,10 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -260,6 +260,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(6, 60);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(248, 32);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Convert text in clipboard";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // checkBox2
             // 
             this.checkBox2.Appearance = System.Windows.Forms.Appearance.Button;
@@ -291,16 +301,6 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "https://github.com/Adrianotiger/TextCrypter";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(6, 60);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(248, 32);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Convert text in clipboard";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 

@@ -95,7 +95,7 @@ namespace KeyboardTrans
                 MessageBox.Show("Please activate crypting before using this function.");
             }
             else
-            {
+            { 
                 String s;
                 String s2;
                 try
