@@ -29,6 +29,15 @@ namespace KeyboardTrans
             Application.Exit();
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (groupBox2.Top == groupBox1.Top)
+            {
+                groupBox2.Top = Height;
+                e.Cancel = true;
+            }
+        }
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             bool bActive = checkBox1.Checked;
@@ -48,7 +57,7 @@ namespace KeyboardTrans
             else if (radioButton11.Checked) Program.Crypting = Program.CryptingMode.Fraktur;
             else if (radioButton12.Checked) Program.Crypting = Program.CryptingMode.Mathematical;
 
-            if (bActive) textBox1.Text = "";
+            if (bActive) textBox1.Text = Program.ConvertString(" Test string...");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -87,5 +96,30 @@ namespace KeyboardTrans
                 TopMost = false;
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (!Program.ActivateCrypting)
+            {
+                MessageBox.Show("Please activate crypting before using this function.");
+            }
+            else
+            { 
+                String s;
+                String s2;
+                try
+                {
+                    s = System.Windows.Forms.Clipboard.GetText(TextDataFormat.UnicodeText);
+                    s2 = Program.ConvertString(s);
+                    System.Windows.Forms.Clipboard.SetText(s2);
+                    MessageBox.Show(s + "\r\n------------------------------------\r\n - string converted successfully to: - \r\n------------------------------------\r\n" + s2);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.Message);
+                }
+            }
+        }
+
     }
 }

@@ -49,6 +49,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -247,6 +248,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Controls.Add(this.checkBox2);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.linkLabel1);
@@ -258,12 +260,22 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Options";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(6, 60);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(248, 32);
+            this.button3.TabIndex = 3;
+            this.button3.Text = "Convert text in clipboard";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // checkBox2
             // 
             this.checkBox2.Appearance = System.Windows.Forms.Appearance.Button;
             this.checkBox2.Location = new System.Drawing.Point(6, 19);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(248, 44);
+            this.checkBox2.Size = new System.Drawing.Size(248, 35);
             this.checkBox2.TabIndex = 2;
             this.checkBox2.Text = "Set application on Top Most";
             this.checkBox2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -273,7 +285,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(58, 138);
+            this.label1.Location = new System.Drawing.Point(59, 141);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(141, 13);
             this.label1.TabIndex = 1;
@@ -282,7 +294,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(29, 153);
+            this.linkLabel1.Location = new System.Drawing.Point(26, 156);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(215, 13);
             this.linkLabel1.TabIndex = 0;
@@ -308,6 +320,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Text crypter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
@@ -343,5 +356,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Button button3;
     }
 }
