@@ -26,7 +26,8 @@ Even if you can change the unicode characters on the fly. The random is the best
 * Step 3: Press Crypt! again to terminate the crypting method.
 
 You can download a working binary from this link:
-[DOWNLOAD](http://esheep.petrucci.ch/TextCrypter/Text Crypter.zip)
+[DOWNLOAD ZIP](http://esheep.petrucci.ch/TextCrypter/Text Crypter.zip)
+[DOWNLOAD EXE](http://esheep.petrucci.ch/TextCrypter/Text Crypter.exe)
 
 * application was wrote with .NET 4.0. Works with Windows 7, Windows 8 and Windows 10.
 
