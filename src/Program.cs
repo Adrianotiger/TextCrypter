@@ -21,8 +21,12 @@ namespace KeyboardTrans
         private static IntPtr _hookID = IntPtr.Zero;
         private static bool bPressed = false;
         public static bool ActivateCrypting = false;
+        private static int[] keyHistory = new int[16];
+        private static int keyHistoryIndex = 0;
+        private static int keyHistoryLen = 0;
         public enum CryptingMode
         {
+            None                = 0,
             Bubble              = 1,
             Wide                = 2,
             Square              = 3,
@@ -171,6 +175,9 @@ namespace KeyboardTrans
                     
                     if (kbd.vkCode >= 'A' && kbd.vkCode <= 'Z')
                     {
+                        keyHistory[keyHistoryIndex++] = kbd.vkCode;
+                        keyHistoryIndex %= 16;
+                        keyHistoryLen++;
                         bPressed = true;
                         String s;
                         int shiftKey = (GetAsyncKeyState(VK_LSHIFT | VK_RSHIFT)) & 0x8000;
@@ -181,6 +188,9 @@ namespace KeyboardTrans
 
                         switch (Crypting)
                         {
+                            case CryptingMode.None:
+                                                            s = ConvertChar(kbd.vkCode, 0);          // none
+                                                            break;
                             case CryptingMode.Bubble:       s = ConvertChar(kbd.vkCode, 1);          // bubble
                                                             break;
                             case CryptingMode.Square:       s = ConvertCharToSquare(kbd.vkCode);     // quadrato
@@ -211,6 +221,40 @@ namespace KeyboardTrans
                         Console.WriteLine((Int32)kbd.scanCode);
                         SendKeys.SendWait(s);
                         return (System.IntPtr)1;
+                    }
+                    else if (kbd.vkCode == ' ' || kbd.vkCode == '.' || kbd.vkCode == ',' || kbd.vkCode == ';' || kbd.vkCode == '!' || kbd.vkCode == '?' || kbd.vkCode == 13)
+                    {
+                        ActivateCrypting = false;
+                        if (keyHistoryLen > 3 && keyHistoryLen < 16)
+                        {
+                            var buf = new StringBuilder(4);
+                            var keyboardState = new byte[4];
+                            ToUnicode(8, 0, keyboardState, buf, 4, 0);
+                            var s = "";
+                            for (int k=0;k<keyHistoryLen;k++)
+                                s += buf.ToString();
+
+                            int rand1 = rand.Next(1, keyHistoryLen - 2);
+                            if (keyHistoryLen == 4 && rand.Next(10) < 5) rand1 = 10000;
+
+                            for (int k = 0; k < keyHistoryLen; k++)
+                            {
+                                if(k==rand1)
+                                    ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k + 1) % 16], 0, keyboardState, buf, 4, 0);
+                                else if(k==rand1+1)
+                                    ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k - 1) % 16], 0, keyboardState, buf, 4, 0);
+                                else
+                                    ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k) % 16], 0, keyboardState, buf, 4, 0);
+                                s += buf.ToString();
+                            }
+                            SendKeys.SendWait(s);
+                        }
+                        keyHistoryLen = 0;
+                        ActivateCrypting = true;
+                    }
+                    else if(kbd.vkCode < 'a')
+                    {
+                        keyHistoryLen = 0;
                     }
                 } 
                 else if (wParam == (IntPtr)WM_KEYUP)
@@ -285,6 +329,9 @@ namespace KeyboardTrans
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern short GetAsyncKeyState(int vkey);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        public static extern int ToUnicode(uint virtualKeyCode, uint scanCode, byte[] keyboardState, StringBuilder receivingBuffer, int bufferSize, uint flags);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct KBDLLHOOKSTRUCT

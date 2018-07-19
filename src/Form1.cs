@@ -56,6 +56,7 @@ namespace KeyboardTrans
             else if (radioButton10.Checked) Program.Crypting = Program.CryptingMode.Bracket;
             else if (radioButton11.Checked) Program.Crypting = Program.CryptingMode.Fraktur;
             else if (radioButton12.Checked) Program.Crypting = Program.CryptingMode.Mathematical;
+            else if (radioButton13.Checked) Program.Crypting = Program.CryptingMode.None;
 
             if (bActive) textBox1.Text = Program.ConvertString(" Test string...");
         }
@@ -82,7 +83,14 @@ namespace KeyboardTrans
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(linkLabel1.Text);
+            try
+            {
+                System.Diagnostics.Process.Start(linkLabel1.Text);
+            }
+            catch(Exception)
+            {
+
+            }
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)

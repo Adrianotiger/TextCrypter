@@ -53,12 +53,16 @@
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.radioButton13 = new System.Windows.Forms.RadioButton();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.checkBox3);
+            this.groupBox1.Controls.Add(this.radioButton13);
             this.groupBox1.Controls.Add(this.radioButton12);
             this.groupBox1.Controls.Add(this.radioButton11);
             this.groupBox1.Controls.Add(this.radioButton10);
@@ -152,9 +156,8 @@
             // radioButton5
             // 
             this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(185, 153);
+            this.radioButton5.Location = new System.Drawing.Point(166, 124);
             this.radioButton5.Name = "radioButton5";
-            this.radioButton5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.radioButton5.Size = new System.Drawing.Size(69, 17);
             this.radioButton5.TabIndex = 4;
             this.radioButton5.Text = "Random*";
@@ -302,6 +305,26 @@
             this.linkLabel1.Text = "https://github.com/Adrianotiger/TextCrypter";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // radioButton13
+            // 
+            this.radioButton13.AutoSize = true;
+            this.radioButton13.Location = new System.Drawing.Point(166, 101);
+            this.radioButton13.Name = "radioButton13";
+            this.radioButton13.Size = new System.Drawing.Size(58, 17);
+            this.radioButton13.TabIndex = 13;
+            this.radioButton13.Text = "Normal";
+            this.radioButton13.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(16, 153);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(118, 17);
+            this.checkBox3.TabIndex = 14;
+            this.checkBox3.Text = "switch words letters";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -357,5 +380,7 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.RadioButton radioButton13;
+        private System.Windows.Forms.CheckBox checkBox3;
     }
 }
