@@ -25,10 +25,13 @@ Even if you can change the unicode characters on the fly. The random is the best
 * Step 2: Press Crypt! and your keyboard will write new characters.
 * Step 3: Press Crypt! again to terminate the crypting method.
 
-You can download a working binary from this link:
-[DOWNLOAD ZIP](http://esheep.petrucci.ch/TextCrypter/Text%20Crypter.zip)
-[DOWNLOAD EXE](http://esheep.petrucci.ch/TextCrypter/Text%20Crypter.exe)
+The new version (1.2) is a UWP app and can be installed directly from the store (waiting for approval):
+COMING SOON...
+
+You can download a working binary (.NET 4) from here:
+[DOWNLOAD ZIP](http://esheep.petrucci.ch/TextCrypter/Text%20Crypter.zip)*
+or
+[DOWNLOAD EXE](http://esheep.petrucci.ch/TextCrypter/Text%20Crypter.exe)*
 
 * application was wrote with .NET 4.0. Works with Windows 7, Windows 8 and Windows 10.
-
 
