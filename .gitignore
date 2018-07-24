@@ -1,7 +1,9 @@
 *.pdb
 *.cache
 *.dll
+*.pfx
 TextCrypter.suo
 bin/
 obj/
 .vs/
+TextCrypter/UWPTextCrypter/obj/
