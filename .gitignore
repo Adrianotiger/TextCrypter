@@ -3,6 +3,7 @@
 *.dll
 *.pfx
 TextCrypter.suo
+Package.StoreAssociation.xml
 bin/
 obj/
 .vs/
