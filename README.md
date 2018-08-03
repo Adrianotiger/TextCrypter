@@ -26,12 +26,10 @@ Even if you can change the unicode characters on the fly. The random is the best
 * Step 3: Press Crypt! again to terminate the crypting method.
 
 The new version (1.2) is a UWP app and can be installed directly from the store (waiting for approval):
-COMING SOON...
+[WINDOWS STORE](https://www.microsoft.com/store/apps/9P8F03F9KZZH)
 
-You can download a working binary (.NET 4) from here:
+You can download an older working binary (.NET 4) from here if you use Windows 7 or Windows 8: 
 [DOWNLOAD ZIP](http://esheep.petrucci.ch/TextCrypter/Text%20Crypter.zip)*
-or
-[DOWNLOAD EXE](http://esheep.petrucci.ch/TextCrypter/Text%20Crypter.exe)*
 
 * application was wrote with .NET 4.0. Works with Windows 7, Windows 8 and Windows 10.
 
