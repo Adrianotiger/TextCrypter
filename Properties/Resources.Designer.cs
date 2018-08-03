@@ -63,30 +63,10 @@ namespace TextCrypter.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
         /// </summary>
-        internal static System.Drawing.Icon _1453749394_Key {
+        internal static System.Drawing.Icon icon_Key {
             get {
-                object obj = ResourceManager.GetObject("_1453749394_Key", resourceCulture);
+                object obj = ResourceManager.GetObject("icon_Key", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap about {
-            get {
-                object obj = ResourceManager.GetObject("about", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap options {
-            get {
-                object obj = ResourceManager.GetObject("options", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

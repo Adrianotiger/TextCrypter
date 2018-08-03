@@ -15,7 +15,7 @@ namespace KeyboardTrans
         {
             InitializeComponent();
 
-            Height = Width;
+            Height = Width - 50;
             groupBox2.Top = Height;
         }
 
@@ -38,36 +38,38 @@ namespace KeyboardTrans
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxCrypt_CheckedChanged(object sender, EventArgs e)
         {
-            bool bActive = checkBox1.Checked;
+            bool bActive = checkBoxCrypt.Checked;
             groupBox1.Enabled = !bActive;
             textBox1.Enabled = bActive;
             Program.ActivateCrypting = bActive;
-            if (radioButton1.Checked) Program.Crypting = Program.CryptingMode.Bubble;
-            else if (radioButton2.Checked) Program.Crypting = Program.CryptingMode.Wide;
-            else if (radioButton3.Checked) Program.Crypting = Program.CryptingMode.Square;
-            else if (radioButton4.Checked) Program.Crypting = Program.CryptingMode.FlipX;
-            else if (radioButton5.Checked) Program.Crypting = Program.CryptingMode.Random;
-            else if (radioButton6.Checked) Program.Crypting = Program.CryptingMode.FlipY;
-            else if (radioButton7.Checked) Program.Crypting = Program.CryptingMode.Superior;
-            else if (radioButton8.Checked) Program.Crypting = Program.CryptingMode.Bold;
-            else if (radioButton9.Checked) Program.Crypting = Program.CryptingMode.Italic;
-            else if (radioButton10.Checked) Program.Crypting = Program.CryptingMode.Bracket;
-            else if (radioButton11.Checked) Program.Crypting = Program.CryptingMode.Fraktur;
-            else if (radioButton12.Checked) Program.Crypting = Program.CryptingMode.Mathematical;
-            else if (radioButton13.Checked) Program.Crypting = Program.CryptingMode.None;
+            if (radioButton_bubble.Checked) Program.Crypting = Program.CryptingMode.Bubble;
+            else if (radioButton_wide.Checked) Program.Crypting = Program.CryptingMode.Wide;
+            else if (radioButton_squares.Checked) Program.Crypting = Program.CryptingMode.Square;
+            else if (radioButton_flipX.Checked) Program.Crypting = Program.CryptingMode.FlipX;
+            else if (radioButton_random.Checked) Program.Crypting = Program.CryptingMode.Random;
+            else if (radioButton_flipY.Checked) Program.Crypting = Program.CryptingMode.FlipY;
+            else if (radioButton_superior.Checked) Program.Crypting = Program.CryptingMode.Superior;
+            else if (radioButton_bold.Checked) Program.Crypting = Program.CryptingMode.Bold;
+            else if (radioButton_italic.Checked) Program.Crypting = Program.CryptingMode.Italic;
+            else if (radioButton_bracket.Checked) Program.Crypting = Program.CryptingMode.Bracket;
+            else if (radioButton_fraktur.Checked) Program.Crypting = Program.CryptingMode.Fraktur;
+            else if (radioButton_mathematical.Checked) Program.Crypting = Program.CryptingMode.Mathematical;
+            else if (radioButton_normal.Checked) Program.Crypting = Program.CryptingMode.None;
+
+            Program.SwitchLetters = checkBox_switch.Checked;
 
             if (bActive) textBox1.Text = Program.ConvertString(" Test string...");
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ButtonInfo_Click(object sender, EventArgs e)
         {
             AboutBox1 about = new AboutBox1();
             about.ShowDialog();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void ButtonOption_Click(object sender, EventArgs e)
         {
             if (groupBox2.Top == groupBox1.Top)
             {
@@ -81,11 +83,11 @@ namespace KeyboardTrans
             }
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
             {
-                System.Diagnostics.Process.Start(linkLabel1.Text);
+                System.Diagnostics.Process.Start(((LinkLabel)sender).Text);
             }
             catch(Exception)
             {
@@ -93,19 +95,12 @@ namespace KeyboardTrans
             }
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void CheckBoxTopMost_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox2.Checked)
-            {
-                TopMost = true;
-            }
-            else
-            {
-                TopMost = false;
-            }
+            TopMost = checkBox2.Checked;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void ButtonConvertClipboard_Click(object sender, EventArgs e)
         {
             if (!Program.ActivateCrypting)
             {
@@ -128,6 +123,5 @@ namespace KeyboardTrans
                 }
             }
         }
-
     }
 }

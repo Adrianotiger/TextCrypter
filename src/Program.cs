@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Collections.Generic;
 
 namespace KeyboardTrans
 {
@@ -17,35 +18,39 @@ namespace KeyboardTrans
         private const int VK_RCONTROL = 0xA3;
         private const int VK_LMENU = 0xA4;
         private const int VK_RMENU = 0xA5;
-        private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
+        private static NativeMethods.LowLevelKeyboardProc _proc = HookCallback;
         private static bool bPressed = false;
-        public static bool ActivateCrypting = false;
         private static int[] keyHistory = new int[16];
         private static int keyHistoryIndex = 0;
         private static int keyHistoryLen = 0;
+
+        public static bool ActivateCrypting = false;
+        public static bool SwitchLetters = false;
+
         public enum CryptingMode
         {
-            None                = 0,
-            Bubble              = 1,
-            Wide                = 2,
-            Square              = 3,
-            FlipX               = 4,
-            FlipY               = 5,
-            Superior            = 6,
-            Bold                = 7,
-            Italic              = 8,
-            Bracket             = 9,
-            Fraktur             = 10,
-            Mathematical        = 11,
-            Random              = 99
+            None = 0,
+            Bubble = 1,
+            Wide = 2,
+            Square = 3,
+            FlipX = 4,
+            FlipY = 5,
+            Superior = 6,
+            Bold = 7,
+            Italic = 8,
+            Bracket = 9,
+            Fraktur = 10,
+            Mathematical = 11,
+            Random = 99
         };
         public static CryptingMode Crypting = CryptingMode.Bubble;
+        private static readonly List<int> WordsDivider = new List<int>(new int[]{ ' ', '.', ',', ';', '!', '?', 13 });
 
         private static Encoding enc = new UTF32Encoding(false, true, true);
         private static Random rand = new Random();
 
-        private static string[] alphabetsM = 
+        private static string[] alphabetsM =
         {
             "AⒶAᗄᴬＡ𝐀𝐴⒜𝕬𝓐",  /*ÀÄÅĄĀǠǺΆДАѦӒᎪᗋᗩᴀḀẴ₳⏃Ⱑ⒜*/
             "BⒷᙠᗷᴮＢ𝐁𝐵⒝𝕭𝓑",  /*ßƁƄƅɃʙΒВᏴᗹᗺᗿᙖᙞᴃᵇḂḆ⒝*/
@@ -75,8 +80,8 @@ namespace KeyboardTrans
             "ZⓏƸZᶻＺ𝐙𝑍⒵𝖅𝓩"
         };
 
-        
-        private static String[] alphabetsm = 
+
+        private static String[] alphabetsm =
         {
             "aⓐɒɐᵃａ𝐚𝑎⒜𝖆𝓪",
             "bⓑdpᵇｂ𝐛𝑏⒝𝖇𝓫",
@@ -113,19 +118,19 @@ namespace KeyboardTrans
             Form1 form = new Form1();
             form.Show();
             Application.Run();
-            UnhookWindowsHookEx(_hookID);
+            NativeMethods.UnhookWindowsHookEx(_hookID);
         }
 
-        private static IntPtr SetHook(LowLevelKeyboardProc proc)
+        private static IntPtr SetHook(NativeMethods.LowLevelKeyboardProc proc)
         {
             using (Process curProcess = Process.GetCurrentProcess())
             using (ProcessModule curModule = curProcess.MainModule)
             {
-                return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
+                return NativeMethods.SetWindowsHookEx(WH_KEYBOARD_LL, proc, NativeMethods.GetModuleHandle(curModule.ModuleName), 0);
             }
         }
 
-        private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+        //private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         private static string ConvertChar(Int32 letter, int alphabetIndex)
         {
@@ -151,28 +156,28 @@ namespace KeyboardTrans
         {
             switch (rand.Next(0, 7))
             {
-                case 0: return ConvertChar(letter, 1); 
-                case 1: return ConvertChar(letter, 2); 
-                case 2: return ConvertChar(letter, 5); 
-                case 3: return ConvertChar(letter, 6); 
+                case 0: return ConvertChar(letter, 1);
+                case 1: return ConvertChar(letter, 2);
+                case 2: return ConvertChar(letter, 5);
+                case 3: return ConvertChar(letter, 6);
                 case 4: return ConvertChar(letter, 7);
                 case 5: return ConvertChar(letter, 8);
                 case 6: return ConvertChar(letter, 10);
                 default: return "x";
             }
         }
-        
-        private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+
+        public static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode >= 0 && ActivateCrypting)
             {
-                int ctrlKey = (GetAsyncKeyState(VK_LCONTROL) | GetAsyncKeyState(VK_RCONTROL)) & 0x8000;
-                int altKey = (GetAsyncKeyState(VK_LMENU) | GetAsyncKeyState(VK_RMENU)) & 0x8000;
+                int ctrlKey = (NativeMethods.GetAsyncKeyState(VK_LCONTROL) | NativeMethods.GetAsyncKeyState(VK_RCONTROL)) & 0x8000;
+                int altKey = (NativeMethods.GetAsyncKeyState(VK_LMENU) | NativeMethods.GetAsyncKeyState(VK_RMENU)) & 0x8000;
 
                 if (wParam == (IntPtr)WM_KEYDOWN && !bPressed && ctrlKey == 0 && altKey == 0)
                 {
-                    KBDLLHOOKSTRUCT kbd = (KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(KBDLLHOOKSTRUCT));
-                    
+                    NativeMethods.KBDLLHOOKSTRUCT kbd = (NativeMethods.KBDLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(NativeMethods.KBDLLHOOKSTRUCT));
+
                     if (kbd.vkCode >= 'A' && kbd.vkCode <= 'Z')
                     {
                         keyHistory[keyHistoryIndex++] = kbd.vkCode;
@@ -180,7 +185,7 @@ namespace KeyboardTrans
                         keyHistoryLen++;
                         bPressed = true;
                         String s;
-                        int shiftKey = (GetAsyncKeyState(VK_LSHIFT | VK_RSHIFT)) & 0x8000;
+                        int shiftKey = (NativeMethods.GetAsyncKeyState(VK_LSHIFT | VK_RSHIFT)) & 0x8000;
                         if (shiftKey <= 0)
                         {
                             kbd.vkCode += 'a' - 'A';
@@ -189,49 +194,61 @@ namespace KeyboardTrans
                         switch (Crypting)
                         {
                             case CryptingMode.None:
-                                                            s = ConvertChar(kbd.vkCode, 0);          // none
-                                                            break;
-                            case CryptingMode.Bubble:       s = ConvertChar(kbd.vkCode, 1);          // bubble
-                                                            break;
-                            case CryptingMode.Square:       s = ConvertCharToSquare(kbd.vkCode);     // quadrato
-                                                            break;
-                            case CryptingMode.FlipX:        s = ConvertChar(kbd.vkCode, 2);          // specchia orrizontalmente
-                                                            break;
-                            case CryptingMode.FlipY:        s = ConvertChar(kbd.vkCode, 3);          // specchia verticalmente
-                                                            break;
-                            case CryptingMode.Superior:     s = ConvertChar(kbd.vkCode, 4);          // appendice
-                                                            break;
-                            case CryptingMode.Wide:         s = ConvertChar(kbd.vkCode, 5);          // spazio fisso largo
-                                                            break;
-                            case CryptingMode.Bold:         s = ConvertChar(kbd.vkCode, 6);          // grassetto
-                                                            break;
-                            case CryptingMode.Italic:       s = ConvertChar(kbd.vkCode, 7);          // corsivo
-                                                            break;
-                            case CryptingMode.Bracket:      s = ConvertChar(kbd.vkCode, 8);          // parentesi
-                                                            break;
-                            case CryptingMode.Fraktur:      s = ConvertChar(kbd.vkCode, 9);          // Fraktur (matematica)
-                                                            break;
-                            case CryptingMode.Mathematical: s = ConvertChar(kbd.vkCode, 10);         // lettere matematiche
-                                                            break;
-                            default:                        s = ConvertCharToRandom(kbd.vkCode);         // a caso
-                                                            break;
+                                s = ConvertChar(kbd.vkCode, 0);          // none
+                                break;
+                            case CryptingMode.Bubble:
+                                s = ConvertChar(kbd.vkCode, 1);          // bubble
+                                break;
+                            case CryptingMode.Square:
+                                s = ConvertCharToSquare(kbd.vkCode);     // quadrato
+                                break;
+                            case CryptingMode.FlipX:
+                                s = ConvertChar(kbd.vkCode, 2);          // specchia orrizontalmente
+                                break;
+                            case CryptingMode.FlipY:
+                                s = ConvertChar(kbd.vkCode, 3);          // specchia verticalmente
+                                break;
+                            case CryptingMode.Superior:
+                                s = ConvertChar(kbd.vkCode, 4);          // appendice
+                                break;
+                            case CryptingMode.Wide:
+                                s = ConvertChar(kbd.vkCode, 5);          // spazio fisso largo
+                                break;
+                            case CryptingMode.Bold:
+                                s = ConvertChar(kbd.vkCode, 6);          // grassetto
+                                break;
+                            case CryptingMode.Italic:
+                                s = ConvertChar(kbd.vkCode, 7);          // corsivo
+                                break;
+                            case CryptingMode.Bracket:
+                                s = ConvertChar(kbd.vkCode, 8);          // parentesi
+                                break;
+                            case CryptingMode.Fraktur:
+                                s = ConvertChar(kbd.vkCode, 9);          // Fraktur (matematica)
+                                break;
+                            case CryptingMode.Mathematical:
+                                s = ConvertChar(kbd.vkCode, 10);         // lettere matematiche
+                                break;
+                            default:
+                                s = ConvertCharToRandom(kbd.vkCode);         // a caso
+                                break;
                         }
-                                                                        
+
                         Console.WriteLine((Keys)kbd.vkCode);
                         Console.WriteLine((Int32)kbd.scanCode);
                         SendKeys.SendWait(s);
                         return (System.IntPtr)1;
                     }
-                    else if (kbd.vkCode == ' ' || kbd.vkCode == '.' || kbd.vkCode == ',' || kbd.vkCode == ';' || kbd.vkCode == '!' || kbd.vkCode == '?' || kbd.vkCode == 13)
+                    else if (SwitchLetters && WordsDivider.Contains(kbd.vkCode))
                     {
                         ActivateCrypting = false;
                         if (keyHistoryLen > 3 && keyHistoryLen < 16)
                         {
                             var buf = new StringBuilder(4);
                             var keyboardState = new byte[4];
-                            ToUnicode(8, 0, keyboardState, buf, 4, 0);
+                            NativeMethods.ToUnicode(8, 0, keyboardState, buf, 4, 0);
                             var s = "";
-                            for (int k=0;k<keyHistoryLen;k++)
+                            for (int k = 0; k < keyHistoryLen; k++)
                                 s += buf.ToString();
 
                             int rand1 = rand.Next(1, keyHistoryLen - 2);
@@ -239,12 +256,12 @@ namespace KeyboardTrans
 
                             for (int k = 0; k < keyHistoryLen; k++)
                             {
-                                if(k==rand1)
-                                    ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k + 1) % 16], 0, keyboardState, buf, 4, 0);
-                                else if(k==rand1+1)
-                                    ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k - 1) % 16], 0, keyboardState, buf, 4, 0);
+                                if (k == rand1)
+                                    NativeMethods.ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k + 1) % 16], 0, keyboardState, buf, 4, 0);
+                                else if (k == rand1 + 1)
+                                    NativeMethods.ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k - 1) % 16], 0, keyboardState, buf, 4, 0);
                                 else
-                                    ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k) % 16], 0, keyboardState, buf, 4, 0);
+                                    NativeMethods.ToUnicode((uint)keyHistory[(keyHistoryIndex + 16 - keyHistoryLen + k) % 16], 0, keyboardState, buf, 4, 0);
                                 s += buf.ToString();
                             }
                             SendKeys.SendWait(s);
@@ -252,17 +269,17 @@ namespace KeyboardTrans
                         keyHistoryLen = 0;
                         ActivateCrypting = true;
                     }
-                    else if(kbd.vkCode < 'a')
+                    else if (kbd.vkCode < 'a')
                     {
                         keyHistoryLen = 0;
                     }
-                } 
+                }
                 else if (wParam == (IntPtr)WM_KEYUP)
                 {
                     bPressed = false;
                 }
             }
-            return CallNextHookEx(_hookID, nCode, wParam, lParam);
+            return NativeMethods.CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
 
         public static string ConvertString(string original)
@@ -277,29 +294,41 @@ namespace KeyboardTrans
                     {
                         switch (Crypting)
                         {
-                            case CryptingMode.Bubble: converted += ConvertChar(original[i], 1);          // bubble
+                            case CryptingMode.Bubble:
+                                converted += ConvertChar(original[i], 1);          // bubble
                                 break;
-                            case CryptingMode.Square: converted += ConvertCharToSquare(original[i]);     // quadrato
+                            case CryptingMode.Square:
+                                converted += ConvertCharToSquare(original[i]);     // quadrato
                                 break;
-                            case CryptingMode.FlipX: converted += ConvertChar(original[i], 2);          // specchia orrizontalmente
+                            case CryptingMode.FlipX:
+                                converted += ConvertChar(original[i], 2);          // specchia orrizontalmente
                                 break;
-                            case CryptingMode.FlipY: converted += ConvertChar(original[i], 3);          // specchia verticalmente
+                            case CryptingMode.FlipY:
+                                converted += ConvertChar(original[i], 3);          // specchia verticalmente
                                 break;
-                            case CryptingMode.Superior: converted += ConvertChar(original[i], 4);          // appendice
+                            case CryptingMode.Superior:
+                                converted += ConvertChar(original[i], 4);          // appendice
                                 break;
-                            case CryptingMode.Wide: converted += ConvertChar(original[i], 5);          // spazio fisso largo
+                            case CryptingMode.Wide:
+                                converted += ConvertChar(original[i], 5);          // spazio fisso largo
                                 break;
-                            case CryptingMode.Bold: converted += ConvertChar(original[i], 6);          // grassetto
+                            case CryptingMode.Bold:
+                                converted += ConvertChar(original[i], 6);          // grassetto
                                 break;
-                            case CryptingMode.Italic: converted += ConvertChar(original[i], 7);          // corsivo
+                            case CryptingMode.Italic:
+                                converted += ConvertChar(original[i], 7);          // corsivo
                                 break;
-                            case CryptingMode.Bracket: converted += ConvertChar(original[i], 8);          // parentesi
+                            case CryptingMode.Bracket:
+                                converted += ConvertChar(original[i], 8);          // parentesi
                                 break;
-                            case CryptingMode.Fraktur: converted += ConvertChar(original[i], 9);          // Fraktur (matematica)
+                            case CryptingMode.Fraktur:
+                                converted += ConvertChar(original[i], 9);          // Fraktur (matematica)
                                 break;
-                            case CryptingMode.Mathematical: converted += ConvertChar(original[i], 10);         // lettere matematiche
+                            case CryptingMode.Mathematical:
+                                converted += ConvertChar(original[i], 10);         // lettere matematiche
                                 break;
-                            default: converted += ConvertCharToRandom(original[i]);         // a caso
+                            default:
+                                converted += ConvertCharToRandom(original[i]);         // a caso
                                 break;
                         }
                     }
@@ -311,21 +340,26 @@ namespace KeyboardTrans
             }
             return converted;
         }
+    }
+
+    internal static class NativeMethods
+    {
+        public delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr SetWindowsHookEx(int idHook,
+        public static extern IntPtr SetWindowsHookEx(int idHook,
             LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        public static extern bool UnhookWindowsHookEx(IntPtr hhk);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode,
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode,
             IntPtr wParam, IntPtr lParam);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr GetModuleHandle(string lpModuleName);
+        public static extern IntPtr GetModuleHandle(string lpModuleName);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern short GetAsyncKeyState(int vkey);
