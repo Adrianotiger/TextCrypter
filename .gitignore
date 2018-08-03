@@ -3,8 +3,10 @@
 *.dll
 *.pfx
 TextCrypter.suo
+TextCrypter.csproj.user
 Package.StoreAssociation.xml
 bin/
 obj/
 .vs/
 TextCrypter/UWPTextCrypter/obj/
+TextCrypter/UWPTextCrypter/bin/
